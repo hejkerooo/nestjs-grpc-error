@@ -15,24 +15,12 @@ export class ExceptionFilter implements RpcExceptionFilter<RpcException> {
 }
 
 /*
-  `code` is not being passed further
+  `code` is not being passed further (to the client)
   every call ends up with error code 2 (UNKNOWN)
+  message is passed correctly
 
-  however if you edit heroes.controller to look like this:
-
-  @UseFilters(ExceptionFilter)
-  @Controller()
-  export class HeroesController {
-    @GrpcMethod('HeroesService', 'FindOne')
-    findOne(data: HeroById, metadata: any): Hero {
-
-      throw new RpcException({
-        code: 11,
-        message: 'test'
-      })
-      // throw new CustomException();
-    }
+  sample response:
+  {
+    "error": "2 UNKNOWN: test"
   }
-
-  `code` will be sent to the client (in that case OUT_OF_RANGE because code is 11)
  */
